@@ -9,4 +9,9 @@ fmt:
 test.load: test
 	GORACE="atexit_sleep_ms=50" go test -v -count=1 -short=false -race -covermode=atomic -run=TestLoad
 
-.PHONY: test fmt test.load
+compile:
+	go build ./...
+
+build: test compile
+
+.PHONY: test fmt test.load compile build
