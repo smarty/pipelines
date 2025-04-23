@@ -2,7 +2,7 @@ package pipelines
 
 import "sync"
 
-func New(input chan any, options ...option) Listener {
+func New(input chan any, options ...Option) Listener {
 	config := new(config)
 	config.apply(options...)
 	return &listener{

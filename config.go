@@ -5,7 +5,7 @@ type config struct {
 	groups []*group
 }
 
-func (this *config) apply(options ...option) {
+func (this *config) apply(options ...Option) {
 	for _, option := range append(Options.defaults(), options...) {
 		if option != nil {
 			option(this)
@@ -13,17 +13,17 @@ func (this *config) apply(options ...option) {
 	}
 }
 
-type option func(*config)
+type Option func(*config)
 
 var Options options
 
 type options struct{}
 
-func (options) Logger(logger Logger) option {
+func (options) Logger(logger Logger) Option {
 	return func(c *config) { c.logger = logger }
 }
 
-func (options) StationGroup(options ...groupOption) option {
+func (options) StationGroup(options ...groupOption) Option {
 	return func(c *config) {
 		group := new(group)
 		for _, option := range GroupOptions.defaults(options...) {
@@ -35,8 +35,8 @@ func (options) StationGroup(options ...groupOption) option {
 	}
 }
 
-func (options) defaults(options ...option) []option {
-	return append([]option{
+func (options) defaults(options ...Option) []Option {
+	return append([]Option{
 		Options.Logger(nop{}),
 	}, options...)
 }
